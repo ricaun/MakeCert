@@ -53,7 +53,7 @@ Verify the `ConsoleApp.exe` file is signed. `The file should show an error that 
 
 ## Importing the CA certificate
 
-To import the certificate use the `certutil` windows tool.
+To import the certificate use the `certutil` windows tool. `Popup shows to confirm the installation of the CA certificate`.
 
 ```
 certutil -user -addstore Root signtool.cer
