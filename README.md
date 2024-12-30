@@ -11,18 +11,18 @@ C:\Program Files (x86)\Windows Kits\10\bin\x64\
 
 ## Local Files
 
-The `MakeCert.exe`, `pvk2pfx.exe` and `signtool.exe` was copy from version `10.0.22621.0` `x64`.
+The `MakeCert.exe`, `pvk2pfx.exe` and `signtool.exe` was copy from the [Windows Software Development Kit (SDK)](https://developer.microsoft.com/pt-br/windows/downloads/windows-10-sdk/) version `10.0.22621.0` / `x64`.
 
-* [Latest release](../../releases/latest)
+* [Download Local Files in Latest release](../../releases/latest)
 
-## Make cert and sign file
+## Creating a self-signed certificate authority (CA)
 
 [MakeCert](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/makecert) is a command-line to create certificate with privaty key (`.pvk`).
 
 The command below create a certificate and a popup to require the password. Use `signfile` in this sample.
 
 ```
-.\MakeCert.exe -r -sv signfile.pvk -n "CN=signfile" signfile.cer -b 01/01/2020 -e 12/31/2050
+.\x64\MakeCert.exe -r -pe -ss CA -a sha256 -sky signature -sv signfile.pvk -n "CN=signfile" signfile.cer -b 01/01/2020 -e 12/31/2050
 ```
 
 [Pvk2Pfx](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/pvk2pfx) is a command-line tool that copies public key and private key information contained in `.pvk` file to a Personal Information Exchange (`.pfx`) file. 
@@ -30,7 +30,7 @@ The command below create a certificate and a popup to require the password. Use 
 The command below create the `.pfx` with the personal password (`-po`) `signfile`. The `-pi` specifies the password for the `.pvk` file.
 
 ```
-.\pvk2pfx.exe -pvk signfile.pvk -pi signfile -spc signfile.cer -pfx signfile.pfx -po signfile
+.\x64\pvk2pfx.exe -pvk signfile.pvk -pi signfile -spc signfile.cer -pfx signfile.pfx -po signfile
 ```
 
 ## Sign file
@@ -40,7 +40,7 @@ The command below create the `.pfx` with the personal password (`-po`) `signfile
 The command below sign the file `ConsoleApp.exe` using the Personal Information Exchange (`.pfx`) using the password `signfile`.
 
 ```
-.\signtool.exe sign /f "signfile.pfx" /t http://timestamp.digicert.com /p "signfile" /fd sha1 "ConsoleApp.exe"
+.\x64\signtool.exe sign /f "signfile.pfx" /t http://timestamp.digicert.com /p "signfile" /fd sha1 "ConsoleApp.exe"
 ```
 
 ### Verify file
@@ -48,7 +48,15 @@ The command below sign the file `ConsoleApp.exe` using the Personal Information 
 Verify the `ConsoleApp.exe` file is signed. `The file should show an error that the signature is not trusted by a certificate authority.`
 
 ```
-.\signtool.exe verify /v "ConsoleApp.exe"
+.\x64\signtool.exe verify /v "ConsoleApp.exe"
+```
+
+## Importing the CA certificate
+
+To import the certificate use the `certutil` windows tool.
+
+```
+certutil -user -addstore Root signtool.cer
 ```
 
 ---
