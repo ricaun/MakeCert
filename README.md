@@ -22,8 +22,10 @@ The `MakeCert.exe`, `pvk2pfx.exe` and `signtool.exe` was copy from the [Windows 
 The command below create a certificate and a popup to require the password. Use `signfile` in this sample.
 
 ```
-.\x64\MakeCert.exe -r -pe -ss CA -a sha256 -sky signature -sv signfile.pvk -n "CN=signfile" signfile.cer -b 01/01/2020 -e 12/31/2050
+.\x64\MakeCert.exe -r -pe -ss CA -a sha256 -sky signature -eku 1.3.6.1.5.5.7.3.3 -sv signfile.pvk -n "CN=signfile" signfile.cer -b 01/01/2020 -e 12/31/2050
 ```
+
+The OID [1.3.6.1.5.5.7.3.3](https://www.alvestrand.no/objectid/1.3.6.1.5.5.7.3.3.html) indicates that a certificate can be used for code signing. 
 
 [Pvk2Pfx](https://learn.microsoft.com/en-us/windows-hardware/drivers/devtest/pvk2pfx) is a command-line tool that copies public key and private key information contained in `.pvk` file to a Personal Information Exchange (`.pfx`) file. 
 
