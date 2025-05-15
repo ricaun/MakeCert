@@ -50,7 +50,7 @@ The command below sign the file `ConsoleApp.exe` using the Personal Information 
 Verify the `ConsoleApp.exe` file is signed. `The file should show an error that the signature is not trusted by a certificate authority.`
 
 ```
-.\x64\signtool.exe verify /v "ConsoleApp.exe"
+.\x64\signtool.exe verify /pa "ConsoleApp.exe"
 ```
 
 ## Importing the CA certificate
