@@ -61,6 +61,14 @@ To import the certificate use the `certutil` windows tool. `Popup shows to confi
 certutil -user -addstore Root signtool.cer
 ```
 
+## Certificates - Current User
+
+To verify the certificates install in the current user machine use the command `certmgr` to open the [Certificate Manager Tool](https://learn.microsoft.com/en-us/dotnet/framework/tools/certmgr-exe-certificate-manager-tool).
+
+```
+certmgr
+```
+
 ---
 
 Do you like this project? Please [star this project on GitHub](../../stargazers)!
